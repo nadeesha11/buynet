@@ -1,5 +1,5 @@
 <div class="header-action-icon-2">
-    <a href="#">
+    <a href="{{ route('web.wishlist.view') }}">
         <img class="svgInject" alt="Nest" src="{{ asset('web/assets/imgs/theme/icons/icon-heart.svg') }}" />
         <span class="pro-count blue">{{ $wishlistCount }}</span>
     </a >

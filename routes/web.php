@@ -13,6 +13,7 @@ use App\Http\Controllers\web\authController;
 use App\Http\Controllers\web\contactController;
 use App\Http\Controllers\web\homeController;
 use App\Http\Controllers\web\productController as WebProductController;
+use App\Http\Middleware\customerMiddleware;
 use Illuminate\Support\Facades\Route;
 
 //admin routes
@@ -71,41 +72,36 @@ Route::get('admin/order/{id}/info', [orderManagement::class, 'info'])->name('adm
 Route::get('admin/order/{id}/edit', [orderManagement::class, 'edit'])->name('admin.order.edit'); // order edit
 Route::post('/admin/order/update', [orderManagement::class, 'update'])->name('admin.order.statusChange'); // status Change
 
-// admin.order.statusChange
 //admin routes
 
 // web routes
 Route::get('/', [homeController::class, 'index'])->name('web.home'); // home management
 Route::get('/register', [authController::class, 'register'])->name('web.register'); // home register
 Route::get('/login', [authController::class, 'login'])->name('web.login'); // home login
-Route::post('/customer/create', [authController::class, 'create'])->name('web.customer.create'); // customer create
-Route::get('/dashboard', [authController::class, 'dashboard'])->name('web.dashboard'); // home login
-Route::post('/customer/authCheck', [authController::class, 'authCheck'])->name('web.authCheck'); // customer authCheck
-
 Route::get('/detailed/{id}', [WebProductController::class, 'detailed'])->name('web.product.detailed'); // product detailed
-
 Route::get('/wishlist', [homeController::class, 'viewWishlist'])->name('web.wishlist.view'); // view wishlist
 Route::get('/detailedCart', [homeController::class, 'detailedCart'])->name('web.detailedCart'); // view detailed wishlist
-
-Route::get('/displayCheckout', [WebProductController::class, 'displayCheckout'])->name('web.displayCheckout'); // view displayCheckout
-
-Route::post('/displayCheckout', [WebProductController::class, 'Checkout'])->name('web.payment'); // Checkout post
-Route::get('/paypal', [WebProductController::class, 'paypal'])->name('web.paypal'); // view paypal
-
-Route::get('/success', [WebProductController::class, 'success'])->name('web.success'); // success
-Route::get('/error', [WebProductController::class, 'error'])->name('web.error'); // error
-
 Route::post('/voiceSearch', [WebProductController::class, 'voiceSearch'])->name('web.voiceSearch'); // voiceSearch post
 Route::post('/imageSearch', [WebProductController::class, 'imageSearch'])->name('web.imageSearch'); // imageSearch post
 Route::post('/voice_command', [WebProductController::class, 'voice_command'])->name('web.voice_command'); // voice_command post
-
 Route::get('/contact', [contactController::class, 'contact'])->name('web.contact'); // contact
 Route::get('/imageSearchResults/{title}', [WebProductController::class, 'imageSearchResults'])->name('web.imageSearchResults'); // imageSearch post
-
 Route::get('/all/product', [WebProductController::class, 'allProducts'])->name('web.product.all'); // web all product
 Route::get('/all/category{id}', [WebProductController::class, 'categorySpecified'])->name('web.category'); // web  category
-Route::get('/dashboard/order/more{id}', [WebProductController::class, 'order_moreDetails'])->name('web.dashboard.more'); // web  dashboard more details
+Route::post('/customer/authCheck', [authController::class, 'authCheck'])->name('web.authCheck'); // customer authCheck
+Route::post('/customer/create', [authController::class, 'create'])->name('web.customer.create'); // customer create
+  
+Route::middleware(['isCustomerLogin'])->group(function () {
+    Route::get('/dashboard', [authController::class, 'dashboard'])->name('web.dashboard'); // home login
+    Route::get('/paypal', [WebProductController::class, 'paypal'])->name('web.paypal'); // view paypal
+    Route::get('/success', [WebProductController::class, 'success'])->name('web.success'); // success
+    Route::get('/error', [WebProductController::class, 'error'])->name('web.error'); // error
+    Route::get('/displayCheckout', [WebProductController::class, 'displayCheckout'])->name('web.displayCheckout'); // view displayCheckout
+    Route::post('/displayCheckout', [WebProductController::class, 'Checkout'])->name('web.payment'); // Checkout post
+    Route::get('/dashboard/order/more{id}', [WebProductController::class, 'order_moreDetails'])->name('web.dashboard.more'); // web  dashboard more details
+    Route::get('/web/logout', [authController::class, 'logout'])->name('web.logout'); // home logout
 
+});
 // web routes
 
 

@@ -20,7 +20,12 @@
     </td>
     <td class="action text-center" data-title="Remove"><a wire:click.prevent="deleteCartItem('{{ $item->id }}')" class="text-body"><i class="fi-rs-trash"></i></a></td>
 </tr>
-@empty  
+@empty 
+<tr>
+    <td colspan="6">
+     There is no products in cart
+    </td>
+</tr> 
 @endforelse
 <script>
     document.addEventListener('DOMContentLoaded', function () {

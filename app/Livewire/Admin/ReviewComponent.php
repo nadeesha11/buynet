@@ -39,12 +39,12 @@ class ReviewComponent extends Component
             if($result){
                 $this->reset(['comment', 'name', 'email', 'website']);
                 $this->dispatch('reviewAdded_success');
-                return redirect()->back();
+               
             }
             else{
                 $this->reset(['comment', 'name', 'email', 'website']);
                 $this->dispatch('reviewAdded_success');
-                return redirect()->back();
+                
             }
           
         } catch (\Throwable $th) {

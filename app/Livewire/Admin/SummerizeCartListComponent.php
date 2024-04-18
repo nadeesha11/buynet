@@ -38,5 +38,7 @@ class SummerizeCartListComponent extends Component
     protected $listeners = [
         'add_cart_success' => 'getData', 
         'update_cart_success' => 'getData', 
+        'add_wishlist_to_cart_success' => 'getData', 
+        'trash_cart_success' => 'getData',
     ];
 }

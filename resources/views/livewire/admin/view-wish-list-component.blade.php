@@ -20,19 +20,21 @@
                       
                         <td class="image product-thumbnail pt-40"><img src="{{ 'product_images/'.$item->image_name }}" alt="#" /></td>
                         <td class="product-des product-name">
-                            <h6><a class="product-name mb-10" href="shop-product-right.html">{{ $item->product_title }}</a></h6>
-                          
+                            <h6><a class="product-name mb-10" href="#">{{ $item->product_title }}</a></h6>
                         </td>
                        
                         <td class="text-right" data-title="Cart">
-                            <button class="btn btn-sm">Add to cart</button>
+                            <button wire:click.prevent="add_to_cart('{{ $item->pro_id }}','{{ $item->id }}')" class="btn btn-sm">Add to cart</button>
                         </td>
                         <td class="action text-center" data-title="Remove">
                             <a wire:click.prevent="deleteWishlist('{{ $item->id }}')" class="text-body"><i class="fi-rs-trash"></i></a>
                         </td>
                     </tr>
                     @empty
-                        <p>Wishlist empty</p>
+                    <tr>
+                        <td colspan="4">  <p>Wishlist empty</p></td>
+                    </tr>
+                      
                     @endforelse
                  
                 
@@ -41,3 +43,15 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        Livewire.on('product_already_exits_in_cart', () => {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Product Already Exits In Cart.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
+    });
+</script>

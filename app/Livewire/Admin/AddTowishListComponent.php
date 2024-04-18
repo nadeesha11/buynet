@@ -24,7 +24,8 @@ class AddTowishListComponent extends Component
             try {
                 $check_wishlist_exits = DB::table('wishlist')->where('pro_id',$this->productId)->where('user_id',$customerData->id)->first();
                 if($check_wishlist_exits){
-                    dd('product already added  to the wishlist');
+                    $this->dispatch('product_already_in_wishlist');
+                    return redirect()->back();
                 }else{
                     $result = DB::table('wishlist')->insert([
                         'pro_id' => $this->productId,

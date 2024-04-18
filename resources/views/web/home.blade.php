@@ -34,7 +34,7 @@
                             <div class="row product-grid">
 
                                @forelse ($products as $item)
-                               <div class="col-lg-1-5 col-md-4 col-12 col-sm-6 d-none d-xl-block">
+                               <div class="col-lg-1-5 col-md-4 col-12 col-sm-6 d-xl-block">
                                 <div class="product-cart-wrap">
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
@@ -173,6 +173,15 @@
             Swal.fire({
                 title: 'Error!',
                 text: 'Product already exits.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
+
+        Livewire.on('product_already_in_wishlist', () => {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Product already exits in wishlist.',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
