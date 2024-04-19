@@ -91,4 +91,10 @@ class authController extends Controller
 
         return view('web.dashboard',compact('data','customerData'));
     }
+
+    public function logout(){
+        Auth::logout();
+        session()->flush();
+        return redirect()->route('web.logout');
+    }
 }

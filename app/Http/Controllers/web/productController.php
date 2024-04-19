@@ -135,7 +135,7 @@ class productController extends Controller
    }
 
    public function error(){
-      return "error";  
+      return view('web.paymentError');
    }
 
    public function voiceSearch(Request $request){

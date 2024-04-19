@@ -4,7 +4,7 @@
     <div class="page-header breadcrumb-wrap">
         <div class="container">
             <div class="breadcrumb">
-                <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                <a href="{{ route('web.home') }}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
                 <span></span> Checkout
             </div>
         </div>
@@ -19,13 +19,13 @@
                 @csrf
                 <div class="row">
                     <div class="form-group col-lg-6">
-                        <input type="text" name="fname" value="{{ old('fname') }}" placeholder="First name *">
+                        <input type="text" name="fname" value="{{ old('fname') ?? (session()->has('customer_data') ? session('customer_data')->first_name_order : '') }}" placeholder="First name *">
                         @error('fname')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="form-group col-lg-6">
-                        <input type="text" name="lname" value="{{ old('lname') }}" placeholder="Last name *">
+                        <input type="text" name="lname" value="{{ old('lname') ?? (session()->has('customer_data') ? session('customer_data')->last_name_order : '') }}" placeholder="Last name *">
                         @error('lname')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -33,13 +33,13 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-6">
-                        <input type="text" name="address_1" value="{{ old('address_1') }}"  placeholder="Address *">
+                        <input type="text" name="address_1" value="{{ old('address_1') ?? (session()->has('customer_data') ? session('customer_data')->address_1_order : '') }}" placeholder="Address 1 *">
                         @error('address_1')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="form-group col-lg-6">
-                        <input type="text" name="address_2" value="{{ old('address_2') }}"  placeholder="Address line2">
+                        <input type="text" name="address_2" value="{{ old('address_2') ?? (session()->has('customer_data') ? session('customer_data')->address_2_order : '') }}" placeholder="Address 2 *">
                         @error('address_2')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -48,13 +48,13 @@
             
                 <div class="row">
                     <div class="form-group col-lg-6">
-                        <input  type="text" name="postal" value="{{ old('postal') }}" placeholder="Postcode / ZIP *">
+                         <input type="text" name="postal" value="{{ old('postal') ?? (session()->has('customer_data') ? session('customer_data')->postal_code_order : '') }}" placeholder="enter postal*">
                         @error('postal')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="form-group col-lg-6">
-                        <input  type="text" name="phone" value="{{ old('phone') }}" placeholder="Phone *">
+                        <input type="text" name="phone" value="{{ old('phone') ?? (session()->has('customer_data') ? session('customer_data')->phone_order : '') }}" placeholder="enter phone*">
                         @error('phone')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -62,7 +62,7 @@
                 </div>
                 <div class="row">
                 <div class="form-group col-lg-6">
-                    <input  type="text" name="email" value="{{ old('email') }}" placeholder="Email address *">
+                     <input type="text" name="email" value="{{ old('email') ?? (session()->has('customer_data') ? session('customer_data')->email_order : '') }}" placeholder="enter email*">
                     @error('email')
                     <span class="text-danger">{{ $message }}</span>
                     @enderror

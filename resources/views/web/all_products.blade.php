@@ -4,7 +4,7 @@
     <div class="page-header breadcrumb-wrap">
         <div class="container">
             <div class="breadcrumb">
-                <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                <a href="{{ route('web.home') }}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
                 <span></span>  All Products
             </div>
         </div>
@@ -21,7 +21,7 @@
                     <div class="row product-grid">
 
                        @forelse ($products as $item)
-                       <div class="col-lg-1-5 col-md-4 col-12 col-sm-6 d-none d-xl-block">
+                       <div class="col-lg-1-5 col-md-4 col-12 col-sm-6 d-xl-block">
                         <div class="product-cart-wrap">
                             <div class="product-img-action-wrap">
                                 <div class="product-img product-img-zoom">

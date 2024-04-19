@@ -17,9 +17,7 @@
                     <h4><a href="#">{{ \Illuminate\Support\Str::limit($item->product_title, 15, $end='...') }}</a></h4>
                     <h4><span>{{ $item->qty }} × </span>${{ $item->total }}</h4>
                 </div>                
-                <div class="shopping-cart-delete">
-                    <a href="#"><i class="fi-rs-cross-small"></i></a>
-                </div>
+               
             </li>
             @empty
                 <p>There are no items</p>
@@ -29,7 +27,7 @@
         <div class="shopping-cart-footer">
             <div class="shopping-cart-button">
                 <a href="{{ route('web.detailedCart') }}" class="outline">View cart</a>
-                <a href="shop-checkout.html">Checkout</a>
+                <a href="{{ route('web.displayCheckout') }}">Checkout</a>
             </div>
         </div>
     </div> 
