@@ -43,6 +43,7 @@
     <!-- Option 1: Include in HTML -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+
 <body>
     <style>
         .search-style-2 form input{
@@ -63,16 +64,17 @@
                             <form id="voiceSearch_form" method="POST" action="{{ route('web.voiceSearch') }}">
                                 @csrf
                                 <input type="text"  name="keyword" placeholder="Search for items..." />
-                                <a href="#"><i style="font-size: 20px !important; " class="fa fa-microphone m-2 microphone" aria-hidden="true"></i></a> 
+                                <a href="#"><i style="font-size: 20px !important; " class="fa fa-microphone m-2 microphone" title="Search items by voice" aria-hidden="true"></i></a> 
                             </form>
                         </div>
                         <div class="header-action-right">
                             <div class="header-action-2">
+                              
                                 <div class="header-action-icon-2">
                                     <form method="POST" action="{{ route('web.voice_command') }}" id="voice_command_form">
                                         @csrf
                                         <input type="hidden"  name="voice"  />
-                                        <a href="#"><i style="font-size: 20px !important; " class="fa fa-microphone m-2 voiceCommand" aria-hidden="true"></i></a> 
+                                        <a href="#"><i style="font-size: 20px !important; " title="Navigation by commmand" class="fa fa-microphone m-2 voiceCommand" aria-hidden="true"></i></a> 
                                     </form>
                                 </div>
                                @livewire('admin.wish-list-component')
@@ -88,7 +90,7 @@
                                     <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                                         <ul>
                                             <li><a href="{{ route('web.dashboard') }}"><i class="fi fi-rs-user mr-10"></i>My Account</a></li>
-                                            <li><a href="{{ route('web.logout') }}"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a></li>
+                                            <li><a href="page-login.html"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a></li>
                                         </ul>
                                     </div>
                                     
@@ -108,7 +110,7 @@
             <div class="container">
                 <div class="header-wrap header-space-between position-relative">
                     <div class="logo logo-width-1 d-block d-lg-none">
-                        <a href="{{ route('web.home') }}">
+                        <a href="#">
                             <img style="width: 60px !important; min-width:60px !important;" src="https://i.ibb.co/9y2DqZp/299799450-443349117812853-1057684977558847665-n-1.png" alt="logo" />
                         </a>
                     </div>
@@ -166,9 +168,10 @@
             </div>
             <div class="mobile-header-content-area">
                 <div class="mobile-search search-style-3 mobile-header-border">
-                    <form action="#">
-                        <input type="text" placeholder="Search for items…" />
-                        <button type="submit"><i class="fi-rs-search"></i></button>
+                    <form id="mobileVoiceSearchForm" method="post" action="{{ route('web.voiceSearch') }}">
+                        @csrf
+                        <input name="keyword" id="mobileSearch" type="text" title="Search items by voice" placeholder="Search for items…" />
+                        <a href="#"><i style="font-size: 20px !important; " class="fa fa-microphone m-2 voiceCommandMobile" aria-hidden="true"></i></a> 
                     </form>
                 </div>
                 <div class="mobile-menu-wrap mobile-header-border">
@@ -189,6 +192,7 @@
                     <!-- mobile menu end -->
                 </div>
                 <div class="mobile-header-info-wrap">
+                    
                     @if(session()->has('customer_data'))
                     <div class="single-mobile-header-info">
                         <a href="{{ route('web.dashboard') }}"><i class="fi-rs-user"></i>Profile</a>
@@ -200,14 +204,8 @@
                         <div class="single-mobile-header-info">
                             <a href="{{ route('web.login') }}"><i class="fi-rs-user"></i>Log In</a>
                         </div>
-                    @endif
-                
-                </div>
-                <div class="mobile-header-info-wrap">
-                    
-                    <div class="single-mobile-header-info">
-                        <a href="#"><i class="fi-rs-headphones"></i>071 343 9884</a>
-                    </div>
+                    @endif                
+                   
                 </div>
                 <div class="mobile-social-icon mb-50">
                     <h6 class="mb-15">Follow Us</h6>
@@ -217,7 +215,7 @@
                     <a href="#"><img src="{{ asset('web/assets/imgs/theme/icons/icon-pinterest-white.svg') }}" alt="" /></a>
                     <a href="#"><img src="{{ asset('web/assets/imgs/theme/icons/icon-youtube-white.svg') }}" alt="" /></a>
                 </div>
-                <div class="site-copyright">Copyright 2024 © buynet.</div>
+                <div class="site-copyright">Copyright 2024 © Buynet.</div>
             </div>
         </div>
     </div>
@@ -337,6 +335,48 @@
             microphone2.classList.add('recording')
         })
         //script for voice search ends
+    </script>  
+
+    <script>
+        //script for voice search start mobile
+        var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        var SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
+
+        var grammar = '#JSGF V1.0';
+        var recognition_for_mobile = new SpeechRecognition();
+        var speechRecognitionList_mobile = new SpeechGrammarList();
+
+        speechRecognitionList_mobile.addFromString(grammar, 1);
+        recognition_for_mobile.grammar = speechRecognitionList_mobile;
+        recognition_for_mobile.interimResults = false;
+
+        recognition_for_mobile.onresult = function(event){
+            var lastResult = event.results.length - 1;
+            var content = event.results[lastResult][0].transcript;
+            
+            var inputField_mobile = document.querySelector('#mobileSearch');
+            inputField_mobile.value = content;
+
+            var voiceMobileForm = document.getElementById('mobileVoiceSearchForm');
+            voiceMobileForm.submit();
+        }
+
+        recognition_for_mobile.onspeechend = function(){
+            recognition_for_mobile.stop();
+        }
+
+        recognition_for_mobile.onerror = function(event) {
+            console.log(event.error);
+            const microphone3 = document.querySelector('.voiceCommandMobile')
+            microphone3.classList.remove('recording')
+        }
+
+        document.querySelector('.voiceCommandMobile').addEventListener('click', function(){
+            recognition_for_mobile.start();
+            const microphone3 = document.querySelector('.voiceCommandMobile')
+            microphone3.classList.add('recording')
+        })
+        //script for voice search mobile
     </script>  
 
     <script src="{{ asset('web/assets/js/main.js?v=5.3') }}"></script>
